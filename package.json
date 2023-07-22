@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:client": "cd project-frontend && npm run dev"
+    "dev:client": "cd project-frontend && npm run dev",
+    "dev:server": "cd project-backend && npm run dev",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "install:client": "cd project-frontend && npm install", 
+    "install:server": "cd project-backend && npm install",
+    "on:client": "cd project-frontend &&",
+    "on:server": "cd project-backend &&"
   },
   "keywords": [],
   "author": "",
