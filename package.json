@@ -2,19 +2,19 @@
   "name": "project",
   "private": "true",
   "scripts": {
-    "create-env:server": "cd project-backend && python3 -m venv venv",
-    "freeze:server": "cd project-backend && python3 -m pip freeze > requirements.txt",
+    "create-env:server": "cd project-backend && python -m venv venv",
+    "freeze:server": "cd project-backend && python -m pip freeze > requirements.txt",
     "dev:client": "cd project-frontend && npm run dev",
     "dev:server": "cd project-backend && uvicorn mlapi:app --reload",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "build:client": "cd project-frontend && npm run build",
     "install:client": "cd project-frontend && npm install",
-    "install:server": "cd project-backend && python3 -m pip install",
-    "install": "cd project-frontend && npm install && cd ../project-backend && python3 -m pip install -r requirements.txt",
+    "install:server": "cd project-backend && python -m pip install",
+    "install": "npm run create-env:server && cd project-frontend && npm install && cd ../project-backend && python -m pip install -r requirements.txt",
     "on:client": "cd project-frontend &&",
     "on:server": "cd project-backend &&",
     "uninstall:client": "cd project-frontend && npm uninstall",
-    "uninstall:server": "cd project-backend && python3 -m pip uninstall"
+    "uninstall:server": "cd project-backend && python -m pip uninstall"
   },
   "dependencies": {
     "concurrently": "^8.2.0"
