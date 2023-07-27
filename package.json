@@ -10,7 +10,7 @@
     "build:client": "cd project-frontend && npm run build",
     "install:client": "cd project-frontend && npm install",
     "install:server": "cd project-backend && python -m pip install",
-    "install": "npm run create-env:server && npm install && cd ../project-backend && python -m pip install -r requirements.txt",
+    "install": "cd project-frontend && npm install && cd ../project-backend && python -m pip install -r requirements.txt",
     "on:client": "cd project-frontend &&",
     "on:server": "cd project-backend &&",
     "uninstall:client": "cd project-frontend && npm uninstall",
