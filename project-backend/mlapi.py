@@ -1,11 +1,11 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from keras.models import load_model
 import tensorflow as tf
 import numpy as np
 import os
 
 app = FastAPI()
+# Allows the client to access the server
 origins = ["http://localhost:5173", "http://127.0.0.1/5173"]
 app.add_middleware(
     CORSMiddleware,
@@ -15,12 +15,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # Load the model
-model = load_model("Resnet_BCDetection.h5")
+model = tf.keras.models.load_model("Resnet_BCDetection.h5")
 img_width, img_height = 160, 160
 class_names = ["Benign", "Malignant"]
 
 
-@app.post("/upload_file/")
+@app.post("/upload_file")
 async def upload_file(file: UploadFile):
     raw = await file.read()
     filename = file.filename
