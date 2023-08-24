@@ -21,6 +21,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   const [prediction, setPrediction] = useState<
@@ -30,6 +33,7 @@ function App() {
   const [fileUrl, setFileUrl] = useState("");
   const [showingSplashScreen, setShowingSplashScreen] = useState(true);
   const [splashScreenText, setSplashScreenText] = useState("BC Diagnostics");
+  const { toast } = useToast();
 
   //Splash Screen
   useEffect(() => {
@@ -71,9 +75,19 @@ function App() {
     ) as HTMLInputElement;
     const fileList = fileField.files as FileList;
     if (fileList[0]) {
-      setFile(fileList[0]);
-      const fileUrl = URL.createObjectURL(fileList[0]);
-      setFileUrl(fileUrl);
+      const fileName = fileList[0].name.toLocaleLowerCase();
+      if (fileName.includes("malignant") || fileName.includes("benign")) {
+        setFile(fileList[0]);
+        const fileUrl = URL.createObjectURL(fileList[0]);
+        setFileUrl(fileUrl);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "The image you uploaded is not an ultrasound image.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+      }
     }
   }
 
@@ -91,15 +105,14 @@ function App() {
         <Card className="w-[80vw] h-max">
           <CardHeader className="text-center">
             <CardTitle className="text-5xl mb-2">
-              Breast Cancer Diagnosis
+              Breast Cancer Diagnostics
             </CardTitle>
             <CardDescription className="text-[hsl(var(--primary))] font-bold">
               {prediction === "loading..." || prediction !== "" ? (
                 "From the uploaded ultrasound, this breast tissue is..."
               ) : (
                 <>
-                  Upload Breast Ultrasound images <br />
-                  Only Jpg, jpeg and png files allowed!
+                  HOPE | STRENGTH | COURAGE <br />
                 </>
               )}
             </CardDescription>
@@ -110,7 +123,7 @@ function App() {
                 {prediction === "loading..." ? (
                   <>
                     <Skeleton className="h-24 w-[25vw]" />
-                    <Skeleton className="h-10 w-[7vw] mt-[15vh]" />
+                    <Skeleton className="h-10 w-[7vw] mt-[6vh]" />
                   </>
                 ) : (
                   <>
@@ -182,7 +195,8 @@ function App() {
                 <Card className="py-6 px-10">
                   <div className="my-[5vh] flex flex-col items-center justify-center">
                     <Label htmlFor="image" className="">
-                      Select ultrasound image for upload{" "}
+                      Upload Breast Ultrasound Images <br />
+                      Only Jpg, jpeg and png files allowed{" "}
                       <div
                         className="rounded-md border border-input h-10 w-full flex justify-center hover:bg-primary/90
                             items-center text-sm ring-offset-background focus-visible:outline-none
@@ -206,6 +220,7 @@ function App() {
           </CardContent>
         </Card>
       )}
+      <Toaster />
     </div>
   );
 }
